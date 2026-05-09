@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nutrifyn Global – Purity in Every Product</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── SPLASH ── */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #splash.hide { opacity: 0; visibility: hidden; }
+
+    .splash-logo {
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(0,212,170,0.4);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0,212,170,0.5), 0 0 120px rgba(123,47,247,0.3);
+      animation: pulse3d 2s ease-in-out infinite;
+    }
+    .splash-logo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+    @keyframes pulse3d {
+      0%,100% { transform: scale(1); box-shadow: 0 0 60px rgba(0,212,170,0.5); }
+      50% { transform: scale(1.08); box-shadow: 0 0 100px rgba(0,212,170,0.8), 0 0 200px rgba(123,47,247,0.4); }
+    }
+
+    .splash-name {
+      margin-top: 24px; font-size: 2rem; font-weight: 700;
+      background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 3px; text-transform: uppercase;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+    .splash-tagline {
+      margin-top: 10px; font-size: 0.95rem;
+      color: rgba(255,255,255,0.5); letter-spacing: 2px;
+      animation: fadeUp 1s ease 0.6s both;
+    }
+    .splash-bar {
+      margin-top: 40px; width: 200px; height: 3px;
+      background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden;
+      animation: fadeUp 1s ease 0.8s both;
+    }
+    .splash-bar-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+      border-radius: 10px; animation: loadBar 2.5s ease forwards;
+    }
+    @keyframes loadBar { to { width: 100%; } }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      padding: 14px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(10,10,10,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      z-index: 100;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.3rem; font-weight: 800;
+      background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 2px; text-decoration: none;
+    }
+    .nav-logo img {
+      height: 44px; width: 44px; border-radius: 50%;
+      object-fit: cover; border: 1px solid rgba(0,212,170,0.4);
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      margin-left: 28px; font-size: 0.88rem; letter-spacing: 1px;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #00d4aa; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 120px 20px 80px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,212,170,0.12) 0%, transparent 70%),
+                  radial-gradient(ellipse at 80% 80%, rgba(123,47,247,0.1) 0%, transparent 60%);
+    }
+    .hero-badge {
+      display: inline-block; padding: 6px 18px;
+      border: 1px solid rgba(0,212,170,0.4); border-radius: 50px;
+      font-size: 0.75rem; color: #00d4aa; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 24px;
+      animation: fadeUp 1s ease 0.2s both;
+    }
+    #home h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.1;
+      animation: fadeUp 1s ease 0.4s both;
+    }
+    #home h1 span {
+      background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    #home p {
+      margin-top: 20px; font-size: 1.05rem;
+      color: rgba(255,255,255,0.55); max-width: 560px; line-height: 1.8;
+      animation: fadeUp 1s ease 0.6s both;
+    }
+    .hero-btns {
+      margin-top: 36px; display: flex; gap: 16px;
+      flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 1s ease 0.8s both;
+    }
+    .btn-primary {
+      padding: 14px 36px;
+      background: linear-gradient(135deg, #00d4aa, #7b2ff7);
+      border: none; border-radius: 50px; color: #fff;
+      font-size: 0.95rem; font-weight: 600; cursor: pointer; letter-spacing: 1px;
+      box-shadow: 0 8px 32px rgba(0,212,170,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 48px rgba(0,212,170,0.5); }
+    .btn-outline {
+      padding: 14px 36px; background: transparent;
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 50px;
+      color: #fff; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; letter-spacing: 1px;
+      transition: border-color 0.3s, background 0.3s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-outline:hover { border-color: #00d4aa; background: rgba(0,212,170,0.08); }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 100px 60px; }
+    .section-label {
+      font-size: 0.75rem; color: #00d4aa; letter-spacing: 3px;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; }
+    .section-title span {
+      background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .section-sub { color: rgba(255,255,255,0.45); margin-bottom: 60px; font-size: 1rem; }
+
+    /* ── ABOUT ── */
+    #about { background: rgba(255,255,255,0.01); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center; max-width: 1100px; margin: 0 auto;
+    }
+    .about-img-wrap {
+      position: relative; border-radius: 24px; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,212,170,0.15);
+    }
+    .about-img-wrap img { width: 100%; display: block; border-radius: 24px; }
+    .about-img-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,170,0.15), rgba(123,47,247,0.1));
+      border-radius: 24px;
+    }
+    .about-content p {
+      color: rgba(255,255,255,0.65); line-height: 1.9; font-size: 0.97rem;
+      margin-bottom: 16px;
+    }
+    .about-tagline {
+      margin-top: 24px; font-size: 1.1rem; font-weight: 700;
+      background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .owner-badge {
+      margin-top: 28px; display: inline-flex; align-items: center; gap: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,212,170,0.2);
+      border-radius: 16px; padding: 14px 20px;
+    }
+    .owner-badge img {
+      width: 48px; height: 48px; border-radius: 50%;
+      object-fit: cover; border: 2px solid rgba(0,212,170,0.5);
+    }
+    .owner-info small { color: rgba(255,255,255,0.4); font-size: 0.75rem; display: block; }
+    .owner-info strong { font-size: 1rem; color: #fff; }
+
+    /* ── PRODUCTS ── */
+    #products { text-align: center; }
+    .prod-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px; max-width: 1100px; margin: 0 auto;
+    }
+    .prod-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 40px 24px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      transform-style: preserve-3d;
+    }
+    .prod-card:hover {
+      transform: translateY(-12px) rotateX(4deg) rotateY(-4deg);
+      box-shadow: 0 30px 80px rgba(0,212,170,0.15), 0 0 0 1px rgba(0,212,170,0.2);
+    }
+    .prod-icon { font-size: 3rem; margin-bottom: 18px; }
+    .prod-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 12px; }
+    .prod-card p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .prod-note {
+      margin-top: 50px; font-size: 0.95rem;
+      color: rgba(255,255,255,0.45); max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .prod-note span { color: #00d4aa; }
+
+    /* ── CONTACT ── */
+    #contact { background: rgba(255,255,255,0.01); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; max-width: 1100px; margin: 0 auto;
+    }
+    .contact-info h3 {
+      font-size: 1.4rem; font-weight: 700; margin-bottom: 24px;
+    }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      margin-bottom: 20px;
+    }
+    .contact-item .ci-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .contact-item .ci-text small { color: rgba(255,255,255,0.4); font-size: 0.75rem; display: block; }
+    .contact-item .ci-text span { color: #fff; font-size: 0.95rem; }
+    .hours-box {
+      margin-top: 28px; padding: 20px 24px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+    }
+    .hours-box h4 { font-size: 0.85rem; color: #00d4aa; letter-spacing: 1px; margin-bottom: 12px; }
+    .hours-box p { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .contact-form input,
+    .contact-form textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 14px 18px;
+      color: #fff; font-size: 0.95rem; font-family: inherit;
+      outline: none; transition: border-color 0.3s;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: rgba(0,212,170,0.5); }
+    .contact-form textarea { resize: vertical; min-height: 130px; }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 40px 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.3); font-size: 0.85rem; letter-spacing: 1px;
+    }
+    footer a { color: #00d4aa; text-decoration: none; }
+    footer .footer-logo {
+      font-size: 1.2rem; font-weight: 800; letter-spacing: 2px;
+      background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 10px; display: block;
+    }
+
+    /* ── HERBAL MODAL ── */
+    #herbal-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.95); z-index: 9997;
+      overflow-y: auto;
+    }
+    #herbal-modal.active { display: block; }
+    .hm-inner {
+      max-width: 860px; margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+    .hm-close {
+      position: fixed; top: 20px; right: 28px;
+      font-size: 2rem; color: #fff; background: none;
+      border: none; cursor: pointer; z-index: 9999;
+      transition: color 0.2s;
+    }
+    .hm-close:hover { color: #00d4aa; }
+    .hm-header {
+      text-align: center; margin-bottom: 60px;
+    }
+    .hm-header h2 {
+      font-size: 2rem; font-weight: 900;
+      background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .hm-header p { color: rgba(255,255,255,0.45); font-size: 0.95rem; }
+    .hm-article {
+      display: grid; grid-template-columns: 280px 1fr;
+      gap: 36px; align-items: start;
+      margin-bottom: 60px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .hm-article:last-child { border-bottom: none; margin-bottom: 0; }
+    .hm-article.reverse { grid-template-columns: 1fr 280px; }
+    .hm-article.reverse .hm-img { order: 2; }
+    .hm-article.reverse .hm-text { order: 1; }
+    .hm-img img {
+      width: 100%; border-radius: 18px;
+      object-fit: cover; aspect-ratio: 1/1;
+      border: 2px solid rgba(0,212,170,0.2);
+      box-shadow: 0 20px 60px rgba(0,212,170,0.1);
+    }
+    .hm-img .hm-img-label {
+      text-align: center; margin-top: 10px;
+      font-size: 0.8rem; color: #00d4aa;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    .hm-text h3 {
+      font-size: 1.5rem; font-weight: 800; margin-bottom: 6px;
+    }
+    .hm-text .hm-subtitle {
+      font-size: 0.8rem; color: #00d4aa;
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hm-text p {
+      color: rgba(255,255,255,0.6); line-height: 1.85;
+      font-size: 0.95rem; margin-bottom: 20px;
+    }
+    .hm-benefits {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .hm-tag {
+      padding: 5px 14px; border-radius: 50px;
+      background: rgba(0,212,170,0.1);
+      border: 1px solid rgba(0,212,170,0.25);
+      font-size: 0.78rem; color: #00d4aa; letter-spacing: 1px;
+    }
+    .hm-nutrition {
+      margin-top: 18px; padding: 16px 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+    }
+    .hm-nutrition h4 {
+      font-size: 0.78rem; color: rgba(255,255,255,0.4);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .hm-nutrition ul {
+      list-style: none; display: flex; flex-wrap: wrap; gap: 8px 20px;
+    }
+    .hm-nutrition ul li {
+      font-size: 0.85rem; color: rgba(255,255,255,0.65);
+    }
+    .hm-nutrition ul li span { color: #7b2ff7; font-weight: 700; }
+    .herbal-clickable { cursor: pointer; }
+    .herbal-clickable:hover {
+      transform: translateY(-12px) rotateX(4deg) rotateY(-4deg);
+      box-shadow: 0 30px 80px rgba(0,212,170,0.15), 0 0 0 1px rgba(0,212,170,0.2);
+    }
+    @media (max-width: 680px) {
+      .hm-article, .hm-article.reverse { grid-template-columns: 1fr; }
+      .hm-article.reverse .hm-img { order: 0; }
+      .hm-article.reverse .hm-text { order: 0; }
+    }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.92); z-index: 9998;
+      align-items: center; justify-content: center; flex-direction: column;
+    }
+    #lightbox.active { display: flex; }
+    #lightbox img {
+      max-width: 90vw; max-height: 80vh;
+      border-radius: 16px; border: 2px solid rgba(0,212,170,0.4);
+      box-shadow: 0 0 60px rgba(0,212,170,0.3);
+      animation: fadeUp 0.3s ease;
+    }
+    #lightbox-caption {
+      margin-top: 16px; font-size: 1rem; color: #00d4aa;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    #lightbox-close {
+      position: absolute; top: 24px; right: 32px;
+      font-size: 2rem; color: #fff; cursor: pointer;
+      background: none; border: none; line-height: 1;
+      transition: color 0.2s;
+    }
+    #lightbox-close:hover { color: #00d4aa; }
+    #lightbox-prev, #lightbox-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      font-size: 2.5rem; color: #fff; cursor: pointer;
+      background: rgba(255,255,255,0.05); border: none;
+      padding: 10px 18px; border-radius: 12px;
+      transition: background 0.2s, color 0.2s;
+    }
+    #lightbox-prev { left: 24px; }
+    #lightbox-next { right: 24px; }
+    #lightbox-prev:hover, #lightbox-next:hover { background: rgba(0,212,170,0.2); color: #00d4aa; }
+    .prod-img { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+    .prod-img:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(0,212,170,0.3); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      section { padding: 70px 20px; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .about-img-wrap { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERBAL MODAL -->
+  <div id="herbal-modal">
+    <button class="hm-close" id="hmClose">&times;</button>
+    <div class="hm-inner">
+      <div class="hm-header">
+        <h2>🌱 Herbal &amp; Leaf Powders</h2>
+        <p>Nature's finest — health benefits, nutritional values &amp; uses of every product</p>
+      </div>
+
+      <!-- Moringa -->
+      <div class="hm-article">
+        <div class="hm-img"><img src="moringa.jpeg" alt="Moringa"/><div class="hm-img-label">Moringa Powder</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">The Miracle Tree</div>
+          <h3>Moringa Powder</h3>
+          <p>Moringa oleifera is one of the most nutrient-dense plants on earth. Its dried leaf powder is packed with vitamins, minerals, and antioxidants that support overall health, energy, and immunity. Used in smoothies, teas, soups, and health supplements.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Boosts Immunity</span><span class="hm-tag">Anti-inflammatory</span><span class="hm-tag">Energy Booster</span><span class="hm-tag">Rich in Iron</span><span class="hm-tag">Antioxidant</span><span class="hm-tag">Blood Sugar Control</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Vitamin C <span>×7 oranges</span></li><li>Calcium <span>×4 milk</span></li><li>Potassium <span>×3 bananas</span></li><li>Protein <span>25g/100g</span></li><li>Iron <span>×3 spinach</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Onion Powder -->
+      <div class="hm-article reverse">
+        <div class="hm-img"><img src="onion powder.jpeg" alt="Onion Powder"/><div class="hm-img-label">Onion Powder</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Kitchen Essential</div>
+          <h3>Onion Powder</h3>
+          <p>Dehydrated onion powder retains all the flavour and health benefits of fresh onions in a convenient form. Rich in quercetin and sulfur compounds, it supports heart health, reduces inflammation, and enhances the taste of any dish.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Heart Health</span><span class="hm-tag">Anti-bacterial</span><span class="hm-tag">Digestive Aid</span><span class="hm-tag">Blood Pressure</span><span class="hm-tag">Rich in Quercetin</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Quercetin <span>High</span></li><li>Vitamin B6 <span>Present</span></li><li>Manganese <span>Present</span></li><li>Fiber <span>4g/100g</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Aparajita Powder -->
+      <div class="hm-article">
+        <div class="hm-img"><img src="aparajita powder.jpeg" alt="Aparajita Powder"/><div class="hm-img-label">Aparajita Powder</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Ayurvedic Herb</div>
+          <h3>Aparajita Powder</h3>
+          <p>Clitoria ternatea (Aparajita/Butterfly Pea) is a powerful Ayurvedic herb known for its brain-boosting and calming properties. The vivid blue flower powder is used in herbal teas, natural food colouring, and wellness supplements.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Brain Booster</span><span class="hm-tag">Stress Relief</span><span class="hm-tag">Memory Support</span><span class="hm-tag">Anti-anxiety</span><span class="hm-tag">Eye Health</span><span class="hm-tag">Natural Colorant</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Anthocyanins <span>High</span></li><li>Flavonoids <span>Rich</span></li><li>Antioxidants <span>Very High</span></li><li>Proanthocyanidins <span>Present</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Jamun Leaf -->
+      <div class="hm-article reverse">
+        <div class="hm-img"><img src="jamun leaf.jpeg" alt="Jamun Leaf"/><div class="hm-img-label">Jamun Leaf</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Diabetic Superfood</div>
+          <h3>Jamun Leaf Powder</h3>
+          <p>Jamun (Syzygium cumini) leaves have been used in Ayurveda for centuries to manage blood sugar levels. The leaf powder contains jamboline and jambosine which slow down the conversion of starch into sugar, making it highly beneficial for diabetics.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Blood Sugar Control</span><span class="hm-tag">Anti-diabetic</span><span class="hm-tag">Liver Health</span><span class="hm-tag">Anti-bacterial</span><span class="hm-tag">Digestive Health</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Jamboline <span>Active</span></li><li>Tannins <span>High</span></li><li>Gallic Acid <span>Present</span></li><li>Vitamin C <span>Present</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Guava Leaf -->
+      <div class="hm-article">
+        <div class="hm-img"><img src="guava leaf.jpeg" alt="Guava Leaf"/><div class="hm-img-label">Guava Leaf</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Immunity Shield</div>
+          <h3>Guava Leaf Powder</h3>
+          <p>Guava leaves are rich in antioxidants, antibacterial compounds, and anti-inflammatory agents. The powder is widely used for managing diarrhea, lowering blood sugar, supporting weight loss, and promoting healthy skin and hair.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Diarrhea Relief</span><span class="hm-tag">Weight Loss</span><span class="hm-tag">Skin Health</span><span class="hm-tag">Hair Growth</span><span class="hm-tag">Blood Sugar</span><span class="hm-tag">Anti-bacterial</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Vitamin C <span>High</span></li><li>Lycopene <span>Present</span></li><li>Quercetin <span>Present</span></li><li>Tannins <span>Rich</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Banana Powder -->
+      <div class="hm-article reverse">
+        <div class="hm-img"><img src="banana powder.jpeg" alt="Banana Powder"/><div class="hm-img-label">Banana Powder</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Natural Energy Source</div>
+          <h3>Banana Powder</h3>
+          <p>Made from dehydrated ripe bananas, banana powder is a natural source of quick energy, potassium, and dietary fiber. It is widely used in baby food, smoothies, baked goods, and sports nutrition products.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Instant Energy</span><span class="hm-tag">Heart Health</span><span class="hm-tag">Digestive Aid</span><span class="hm-tag">Muscle Recovery</span><span class="hm-tag">Mood Booster</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Potassium <span>358mg/100g</span></li><li>Vitamin B6 <span>High</span></li><li>Fiber <span>2.6g/100g</span></li><li>Magnesium <span>Present</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Garlic Powder -->
+      <div class="hm-article">
+        <div class="hm-img"><img src="garlic powder.jpeg" alt="Garlic Powder"/><div class="hm-img-label">Garlic Powder</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Nature's Antibiotic</div>
+          <h3>Garlic Powder</h3>
+          <p>Garlic has been used medicinally for thousands of years. Dehydrated garlic powder retains allicin — the key compound responsible for its powerful antibacterial, antiviral, and heart-protective properties. A staple in cooking and natural medicine.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Heart Health</span><span class="hm-tag">Immunity Boost</span><span class="hm-tag">Anti-bacterial</span><span class="hm-tag">Cholesterol Control</span><span class="hm-tag">Anti-fungal</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Allicin <span>Active</span></li><li>Vitamin C <span>Present</span></li><li>Manganese <span>High</span></li><li>Selenium <span>Present</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Curry Leaves -->
+      <div class="hm-article reverse">
+        <div class="hm-img"><img src="curry leaves.jpeg" alt="Curry Leaves"/><div class="hm-img-label">Curry Leaves</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Hair &amp; Gut Health</div>
+          <h3>Curry Leaves Powder</h3>
+          <p>Curry leaves (Murraya koenigii) are a staple in Indian cooking and Ayurvedic medicine. Rich in carbazole alkaloids, they promote hair growth, improve digestion, reduce cholesterol, and support liver function.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Hair Growth</span><span class="hm-tag">Digestion</span><span class="hm-tag">Liver Health</span><span class="hm-tag">Cholesterol</span><span class="hm-tag">Anti-oxidant</span><span class="hm-tag">Eye Health</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Iron <span>High</span></li><li>Calcium <span>Present</span></li><li>Vitamin A <span>Rich</span></li><li>Carbazole Alkaloids <span>Active</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Tomato -->
+      <div class="hm-article">
+        <div class="hm-img"><img src="tomato.jpeg" alt="Tomato"/><div class="hm-img-label">Tomato Powder</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Lycopene Powerhouse</div>
+          <h3>Tomato Powder</h3>
+          <p>Dehydrated tomato powder is a concentrated source of lycopene — a powerful antioxidant linked to reduced risk of cancer and heart disease. It adds rich flavour to sauces, soups, and seasonings while delivering exceptional nutritional value.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Cancer Prevention</span><span class="hm-tag">Heart Health</span><span class="hm-tag">Skin Glow</span><span class="hm-tag">Eye Health</span><span class="hm-tag">Bone Health</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Lycopene <span>Very High</span></li><li>Vitamin C <span>High</span></li><li>Vitamin K <span>Present</span></li><li>Potassium <span>Present</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Ginger -->
+      <div class="hm-article reverse">
+        <div class="hm-img"><img src="ginger.jpeg" alt="Ginger"/><div class="hm-img-label">Ginger Powder</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Anti-nausea Wonder</div>
+          <h3>Ginger Powder</h3>
+          <p>Ginger is one of the world's most ancient and widely used medicinal spices. Its active compound gingerol has powerful anti-inflammatory and antioxidant effects. Used for nausea, digestion, pain relief, and immune support.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Nausea Relief</span><span class="hm-tag">Anti-inflammatory</span><span class="hm-tag">Digestion</span><span class="hm-tag">Pain Relief</span><span class="hm-tag">Immunity</span><span class="hm-tag">Blood Sugar</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Gingerol <span>Active</span></li><li>Magnesium <span>Present</span></li><li>Vitamin B6 <span>Present</span></li><li>Manganese <span>High</span></li></ul></div>
+        </div>
+      </div>
+
+      <!-- Neem -->
+      <div class="hm-article">
+        <div class="hm-img"><img src="neem.jpeg" alt="Neem"/><div class="hm-img-label">Neem Powder</div></div>
+        <div class="hm-text">
+          <div class="hm-subtitle">Village Pharmacy</div>
+          <h3>Neem Powder</h3>
+          <p>Neem (Azadirachta indica) is known as the "village pharmacy" in India. Its leaf powder is a potent antibacterial, antifungal, and blood purifier. Widely used for skin conditions, dental health, diabetes management, and detoxification.</p>
+          <div class="hm-benefits">
+            <span class="hm-tag">Blood Purifier</span><span class="hm-tag">Skin Health</span><span class="hm-tag">Dental Health</span><span class="hm-tag">Anti-fungal</span><span class="hm-tag">Detox</span><span class="hm-tag">Anti-diabetic</span>
+          </div>
+          <div class="hm-nutrition"><h4>Key Nutrients</h4><ul><li>Nimbin <span>Active</span></li><li>Quercetin <span>Present</span></li><li>Azadirachtin <span>Active</span></li><li>Vitamin C <span>Present</span></li></ul></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <button id="lightbox-close">&times;</button>
+    <button id="lightbox-prev">&#8249;</button>
+    <img id="lightbox-img" src="" alt=""/>
+    <div id="lightbox-caption"></div>
+    <button id="lightbox-next">&#8250;</button>
+  </div>
+
+  <!-- SPLASH -->
+  <div id="splash">
+    <div class="splash-logo"><img src="logo.jpeg" alt="Nutrifyn Global"/></div>
+    <div class="splash-name">Nutrifyn Global</div>
+    <div class="splash-tagline">Purity in Every Product</div>
+    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#home" class="nav-logo">
+      <img src="logo.jpeg" alt="Nutrifyn Global"/>
+      NUTRIFYN GLOBAL
+    </a>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#products">Products</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-badge">🌿 Premium Quality · Natural · Reliable</div>
+    <h1>Purity in<br/><span>Every Product.</span></h1>
+    <p>Nutrifyn Global delivers high-quality dehydrated foods, authentic spices, and trusted home care solutions for households and businesses worldwide.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">Our Products</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img src="logo.jpeg" alt="Nutrifyn Global"/>
+      </div>
+      <div class="about-content">
+        <div class="section-label">About Us</div>
+        <div class="section-title">About <span>Nutrifyn Global</span></div>
+        <p>At Nutrifyn Global, we are committed to delivering high-quality, natural, and reliable products that enhance everyday living. Founded with a vision to provide purity and performance across multiple categories, we specialize in dehydrated food products, traditional spices, and essential home care solutions.</p>
+        <p>Our product range includes premium dehydrated fruit and vegetable powders, nutrient-rich herbal leaf powders, authentic Indian masalas, and effective home cleaning products. Each product is carefully sourced, processed, and packaged to maintain quality, safety, and customer satisfaction.</p>
+        <p>We focus on quality raw materials, hygienic processing methods, and efficient supply chains to ensure consistency and trust — serving households, retailers, and bulk buyers in domestic and international markets.</p>
+        <p>Driven by innovation and customer needs, we continue to expand our product portfolio while maintaining our commitment to quality, affordability, and sustainability.</p>
+        <div class="about-tagline">Nutrifyn Global – Purity in Every Product.</div>
+        <div class="owner-badge">
+          <img src="logo.jpeg" alt="Nayan Das"/>
+          <div class="owner-info">
+            <small>Founder & Owner</small>
+            <strong>Nayan Das</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="section-label">What We Offer</div>
+    <div class="section-title">Our <span>Products</span></div>
+    <div class="section-sub">Quality and reliability across food and home care categories.</div>
+    <div class="prod-cards">
+      <div class="prod-card">
+        <div class="prod-icon">🌿</div>
+        <h3>Dehydrated Powders</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;">
+          <img src="moringa.jpeg" alt="Moringa Powder" data-caption="Moringa Powder" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="onion powder.jpeg" alt="Onion Powder" data-caption="Onion Powder" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="aparajita powder.jpeg" alt="Aparajita Powder" data-caption="Aparajita Powder" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="jamun leaf.jpeg" alt="Jamun Leaf" data-caption="Jamun Leaf" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="guava leaf.jpeg" alt="Guava Leaf" data-caption="Guava Leaf" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="banana powder.jpeg" alt="Banana Powder" data-caption="Banana Powder" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="garlic powder.jpeg" alt="Garlic Powder" data-caption="Garlic Powder" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="curry leaves.jpeg" alt="Curry Leaves" data-caption="Curry Leaves" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="tomato.jpeg" alt="Tomato" data-caption="Tomato" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="ginger.jpeg" alt="Ginger" data-caption="Ginger" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+          <img src="neem.jpeg" alt="Neem" data-caption="Neem" class="prod-img" style="width:100%;height:100px;object-fit:cover;border-radius:10px;"/>
+        </div>
+        <p>High-quality dehydrated fruit and vegetable powders — onion, garlic, banana, and more. Ideal for food processing, cooking, and health applications.</p>
+      </div>
+      <div class="prod-card herbal-clickable" id="herbalCard">
+        <div class="prod-icon">🌱</div>
+        <h3>Herbal &amp; Leaf Powders</h3>
+        <p>Moringa, neem, and other natural leaf-based products known for their nutritional and wellness benefits. <span style="color:#00d4aa;">Click to explore →</span></p>
+      </div>
+      <div class="prod-card">
+        <div class="prod-icon">🌶️</div>
+        <h3>Spices & Masala</h3>
+        <p>Authentic Indian spices and blended masalas delivering rich taste and aroma, suitable for home and commercial use.</p>
+      </div>
+      <div class="prod-card">
+        <div class="prod-icon">🧴</div>
+        <h3>Home Care Products</h3>
+        <p>Effective and safe daily hygiene products including hand wash and floor cleaners, designed for cleanliness and safety.</p>
+      </div>
+    </div>
+    <p class="prod-note">We focus on <span>quality, affordability, and customer satisfaction</span> across all categories. <span>Bulk orders</span> and customized packaging options are available.</p>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Reach Us</div>
+    <div class="section-title">Get in <span>Touch</span></div>
+    <div class="section-sub">Product inquiries, bulk orders, and business collaborations — we're here to help.</div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Contact Information</h3>
+        <div class="contact-item">
+          <div class="ci-icon">🏢</div>
+          <div class="ci-text">
+            <small>Business Name</small>
+            <span>Nutrifyn Global</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">👤</div>
+          <div class="ci-text">
+            <small>Owner</small>
+            <span>Nayan Das</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">📍</div>
+          <div class="ci-text">
+            <small>Location</small>
+            <span>Khelar, Paschim Medinipur, West Bengal, India</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">📞</div>
+          <div class="ci-text">
+            <small>Phone</small>
+            <span>Update soon</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">📧</div>
+          <div class="ci-text">
+            <small>Email</small>
+            <span><a href="mailto:info@nutrifynglobal.com" style="color:#00d4aa;">info@nutrifynglobal.com</a></span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">🌐</div>
+          <div class="ci-text">
+            <small>Website</small>
+            <span><a href="http://www.nutrifynglobal.com" style="color:#00d4aa;">www.nutrifynglobal.com</a></span>
+          </div>
+        </div>
+        <div class="hours-box">
+          <h4>BUSINESS HOURS</h4>
+          <p>Monday – Saturday: 9:00 AM – 7:00 PM</p>
+          <p>Sunday: Closed</p>
+        </div>
+      </div>
+      <div>
+        <form class="contact-form" id="contactForm">
+          <input type="text" id="fname" placeholder="Your Name" required />
+          <input type="email" id="femail" placeholder="Your Email" required />
+          <input type="tel" id="fphone" placeholder="Your Phone Number" />
+          <input type="text" id="fsubject" placeholder="Subject (e.g. Bulk Order, Export Inquiry)" required />
+          <textarea id="fmessage" placeholder="Your message — wholesale, export, or custom order inquiries..." required></textarea>
+          <button type="submit" id="submitBtn" class="btn-primary" style="border:none;cursor:pointer;">Send Message</button>
+          <div id="formMsg" style="font-size:0.9rem;margin-top:4px;"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">NUTRIFYN GLOBAL</span>
+    <p>Khelar, Paschim Medinipur, West Bengal, India &nbsp;|&nbsp; <a href="mailto:info@nutrifynglobal.com">info@nutrifynglobal.com</a> &nbsp;|&nbsp; <a href="http://www.nutrifynglobal.com">www.nutrifynglobal.com</a></p>
+    <p style="margin-top:12px;">&copy; 2025 Nutrifyn Global. All rights reserved. &nbsp;|&nbsp; Owner: Nayan Das</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // ── Herbal Modal ──
+    const herbalModal = document.getElementById('herbal-modal');
+    document.getElementById('herbalCard').addEventListener('click', () => {
+      herbalModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    document.getElementById('hmClose').addEventListener('click', () => {
+      herbalModal.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && herbalModal.classList.contains('active')) {
+        herbalModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // ── Lightbox ──
+    const imgs = Array.from(document.querySelectorAll('.prod-img'));
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCaption = document.getElementById('lightbox-caption');
+    let current = 0;
+
+    function openLightbox(index) {
+      current = index;
+      lbImg.src = imgs[current].src;
+      lbCaption.textContent = imgs[current].dataset.caption;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    imgs.forEach((img, i) => img.addEventListener('click', () => openLightbox(i)));
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox-prev').addEventListener('click', () => openLightbox((current - 1 + imgs.length) % imgs.length));
+    document.getElementById('lightbox-next').addEventListener('click', () => openLightbox((current + 1) % imgs.length));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') openLightbox((current - 1 + imgs.length) % imgs.length);
+      if (e.key === 'ArrowRight') openLightbox((current + 1) % imgs.length);
+    });
+
+    // ── EmailJS Init ──
+    emailjs.init('78UWTmhzQEzHC4WZR');
+
+    // ── Splash hide ──
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('splash').classList.add('hide');
+      }, 3000);
+    });
+
+    // ── Contact Form Submit ──
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+
+      const params = {
+        from_name:    document.getElementById('fname').value,
+        from_email:   document.getElementById('femail').value,
+        from_phone:   document.getElementById('fphone').value,
+        subject:      document.getElementById('fsubject').value,
+        message:      document.getElementById('fmessage').value,
+        to_email:     'nayandass143@gmail.com'
+      };
+
+      emailjs.send('service_4gcck5a', 'tamplate_maibalq', params)
+        .then(() => {
+          document.getElementById('formMsg').innerHTML =
+            '<span style="color:#00d4aa">✅ Message sent! We will get back to you soon.</span>';
+          document.getElementById('contactForm').reset();
+          btn.textContent = 'Send Message';
+          btn.disabled = false;
+        })
+        .catch((err) => {
+          const errMsg = JSON.stringify(err);
+          document.getElementById('formMsg').innerHTML =
+            '<span style="color:#ff6b6b">❌ Error: ' + errMsg + '</span>';
+          btn.textContent = 'Send Message';
+          btn.disabled = false;
+          console.error(err);
+        });
+    });
+  </script>
+
+</body>
+</html>
