@@ -101,6 +101,54 @@
     }
     .nav-links a:hover { color: #00d4aa; }
 
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(50px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HERB FLOAT ITEMS ── */
+    .herb-float {
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      overflow: hidden;
+      opacity: 0;
+      animation: floatIn 0.5s ease forwards;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,212,170,0.15);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .herb-float:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0,212,170,0.25);
+    }
+    .herb-float img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+    .herb-float span {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.85);
+      font-weight: 600;
+      padding: 7px 6px;
+      text-align: center;
+      display: block;
+      background: rgba(0,212,170,0.06);
+      border-top: 1px solid rgba(0,212,170,0.12);
+    }
+
+    /* ── FLOATING CARDS HOME ── */
+    .float-card {
+      opacity: 0;
+      animation: floatIn 0.6s ease forwards;
+    }
+    .float-card:nth-child(1) { animation-delay: 3.2s; }
+    .float-card:nth-child(2) { animation-delay: 3.5s; }
+    .float-card:nth-child(3) { animation-delay: 3.8s; }
+    .float-card:nth-child(4) { animation-delay: 4.1s; }
+
     /* ── HERO ── */
     #home {
       min-height: 100vh;
@@ -166,7 +214,7 @@
       background: linear-gradient(90deg, #00d4aa, #7b2ff7);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .section-sub { color: rgba(255,255,255,0.45); margin-bottom: 60px; font-size: 1rem; }
+    .section-sub { color: rgba(255,255,255,0.45); margin-bottom: 30px; font-size: 1rem; }
 
     /* ── ABOUT ── */
     #about { background: rgba(255,255,255,0.01); }
@@ -207,29 +255,31 @@
     .owner-info strong { font-size: 1rem; color: #fff; }
 
     /* ── PRODUCTS ── */
-    #products { text-align: center; }
+    #products { text-align: center; padding: 60px 40px; }
     .prod-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 28px; max-width: 1100px; margin: 0 auto;
+      gap: 20px; max-width: 1100px; margin: 0 auto;
+      align-items: start;
     }
     .prod-card {
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px; padding: 40px 24px;
+      border-radius: 20px; padding: 24px 20px;
       backdrop-filter: blur(10px);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
       transform-style: preserve-3d;
+      height: auto;
     }
     .prod-card:hover {
       transform: translateY(-12px) rotateX(4deg) rotateY(-4deg);
       box-shadow: 0 30px 80px rgba(0,212,170,0.15), 0 0 0 1px rgba(0,212,170,0.2);
     }
-    .prod-icon { font-size: 3rem; margin-bottom: 18px; }
-    .prod-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 12px; }
-    .prod-card p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .prod-icon { font-size: 2.2rem; margin-bottom: 10px; }
+    .prod-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .prod-card p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
     .prod-note {
-      margin-top: 50px; font-size: 0.95rem;
+      margin-top: 30px; font-size: 0.92rem;
       color: rgba(255,255,255,0.45); max-width: 700px; margin-left: auto; margin-right: auto;
     }
     .prod-note span { color: #00d4aa; }
@@ -326,7 +376,22 @@
       margin-bottom: 60px;
       padding-bottom: 60px;
       border-bottom: 1px solid rgba(255,255,255,0.07);
+      opacity: 0;
     }
+    #herbal-modal.active .hm-article {
+      animation: floatIn 0.5s ease forwards;
+    }
+    #herbal-modal.active .hm-article:nth-child(2)  { animation-delay: 0.05s; }
+    #herbal-modal.active .hm-article:nth-child(3)  { animation-delay: 0.15s; }
+    #herbal-modal.active .hm-article:nth-child(4)  { animation-delay: 0.25s; }
+    #herbal-modal.active .hm-article:nth-child(5)  { animation-delay: 0.35s; }
+    #herbal-modal.active .hm-article:nth-child(6)  { animation-delay: 0.45s; }
+    #herbal-modal.active .hm-article:nth-child(7)  { animation-delay: 0.55s; }
+    #herbal-modal.active .hm-article:nth-child(8)  { animation-delay: 0.65s; }
+    #herbal-modal.active .hm-article:nth-child(9)  { animation-delay: 0.75s; }
+    #herbal-modal.active .hm-article:nth-child(10) { animation-delay: 0.85s; }
+    #herbal-modal.active .hm-article:nth-child(11) { animation-delay: 0.95s; }
+    #herbal-modal.active .hm-article:nth-child(12) { animation-delay: 1.05s; }
     .hm-article:last-child { border-bottom: none; margin-bottom: 0; }
     .hm-article.reverse { grid-template-columns: 1fr 280px; }
     .hm-article.reverse .hm-img { order: 2; }
@@ -646,6 +711,28 @@
       <a href="#products" class="btn-primary">Our Products</a>
       <a href="#contact" class="btn-outline">Get in Touch</a>
     </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:48px;">
+      <div class="float-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(0,212,170,0.2);border-radius:16px;padding:16px 24px;text-align:center;min-width:130px;">
+        <div style="font-size:1.8rem;">🌿</div>
+        <div style="font-size:1.1rem;font-weight:800;color:#00d4aa;margin:4px 0;">100%</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);letter-spacing:1px;">Natural</div>
+      </div>
+      <div class="float-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(123,47,247,0.2);border-radius:16px;padding:16px 24px;text-align:center;min-width:130px;">
+        <div style="font-size:1.8rem;">🧪</div>
+        <div style="font-size:1.1rem;font-weight:800;color:#7b2ff7;margin:4px 0;">11+</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);letter-spacing:1px;">Products</div>
+      </div>
+      <div class="float-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(0,212,170,0.2);border-radius:16px;padding:16px 24px;text-align:center;min-width:130px;">
+        <div style="font-size:1.8rem;">🚚</div>
+        <div style="font-size:1.1rem;font-weight:800;color:#00d4aa;margin:4px 0;">Bulk</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);letter-spacing:1px;">Orders</div>
+      </div>
+      <div class="float-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(123,47,247,0.2);border-radius:16px;padding:16px 24px;text-align:center;min-width:130px;">
+        <div style="font-size:1.8rem;">🌍</div>
+        <div style="font-size:1.1rem;font-weight:800;color:#7b2ff7;margin:4px 0;">Global</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);letter-spacing:1px;">Export</div>
+      </div>
+    </div>
   </section>
 
   <!-- ABOUT -->
@@ -700,7 +787,10 @@
       <div class="prod-card herbal-clickable" id="herbalCard">
         <div class="prod-icon">🌱</div>
         <h3>Herbal &amp; Leaf Powders</h3>
-        <p>Moringa, neem, and other natural leaf-based products known for their nutritional and wellness benefits. <span style="color:#00d4aa;">Click to explore →</span></p>
+        <p>Moringa, neem, and other natural leaf-based products known for their nutritional and wellness benefits.</p>
+        <div style="margin-top:16px;">
+          <span style="display:inline-block;padding:10px 24px;background:linear-gradient(135deg,#00d4aa,#7b2ff7);border-radius:50px;font-size:0.88rem;font-weight:600;color:#fff;letter-spacing:1px;">Explore Products →</span>
+        </div>
       </div>
       <div class="prod-card">
         <div class="prod-icon">🌶️</div>
@@ -797,8 +887,12 @@
   <script>
     // ── Herbal Modal ──
     const herbalModal = document.getElementById('herbal-modal');
+
     document.getElementById('herbalCard').addEventListener('click', () => {
+      herbalModal.classList.remove('active');
+      void herbalModal.offsetWidth; // force reflow to restart animation
       herbalModal.classList.add('active');
+      herbalModal.scrollTop = 0;
       document.body.style.overflow = 'hidden';
     });
     document.getElementById('hmClose').addEventListener('click', () => {
